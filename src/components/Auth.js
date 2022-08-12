@@ -15,14 +15,12 @@ export const register = (password, email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ password, email }),
-  })
-    .then((response) => {
-      if (response.status === 201) {
-        localStorage.setItem("user", response);
-        return getResponseData(response);
-      }
-    })
-    .catch((err) => console.log(err));
+  }).then((response) => {
+    if (response.status === 201) {
+      localStorage.setItem("user", response);
+      return getResponseData(response);
+    }
+  });
 };
 
 export const authorize = (email, password) => {
@@ -34,14 +32,15 @@ export const authorize = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => response.json())
+    .then((response) => {
+      return getResponseData(response);
+    })
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
         return data;
       }
-    })
-    .catch((err) => console.log(err));
+    });
 };
 
 export const getContent = (token) => {
@@ -56,6 +55,5 @@ export const getContent = (token) => {
     .then((res) => {
       return getResponseData(res);
     })
-    .then((data) => data)
-    .catch((err) => console.log(err));
+    .then((data) => data);
 };
