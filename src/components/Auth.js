@@ -19,8 +19,7 @@ export const register = (password, email) => {
     .then((response) => {
       if (response.status === 201) {
         localStorage.setItem("user", response);
-        getResponseData(response);
-        return response;
+        return getResponseData(response);
       }
     })
     .catch((err) => console.log(err));
@@ -54,6 +53,9 @@ export const getContent = (token) => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => res.json())
-    .then((data) => data);
+    .then((res) => {
+      return getResponseData(res);
+    })
+    .then((data) => data)
+    .catch((err) => console.log(err));
 };
