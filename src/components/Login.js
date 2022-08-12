@@ -11,13 +11,15 @@ function Login(props) {
           placeholder="Email"
           name="email"
           onChange={props.onEmail}
+          value={props.valueEmail || ""}
         />
         <input
           className="sign-up__input"
           type="password"
           placeholder="Пароль"
-          name="Пароль"
+          name="password"
           onChange={props.onPassword}
+          value={props.valuePassword || ""}
         />
         <button className="sign-up__button">Войти</button>
       </form>

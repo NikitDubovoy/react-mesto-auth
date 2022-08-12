@@ -64,12 +64,17 @@ function App() {
   }
   function handleSubmitSignIn(e) {
     e.preventDefault();
-    Auth.authorize(email, password).then((data) => {
-      if (data.token) {
-        handleLoggedIn();
-        history.push("/");
-      }
-    });
+
+    Auth.authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          handleLoggedIn();
+          tokenCheck();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   React.useEffect(() => {
@@ -107,19 +112,21 @@ function App() {
   }
 
   function tokenCheck() {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
-      Auth.getContent(token).then((res) => {
-        if (res) {
-          setEmailUser(res.data.email);
-          setLoggedIn(true);
-          history.push("/");
-        }
-      });
+    const token = localStorage.getItem("token");
+    if (token != undefined) {
+      Auth.getContent(token)
+        .then((res) => {
+          if (res) {
+            setEmailUser(res.data.email);
+            setLoggedIn(true);
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
-
-  tokenCheck();
 
   function handleSignOut() {
     setEmailUser("");
@@ -219,6 +226,8 @@ function App() {
               onSubmit={handleSubmitSignIn}
               onEmail={handleEmailChange}
               onPassword={handlePasswordChange}
+              valueEmail={email}
+              valuePassword={password}
             />
           </Route>
           <Route path="/sign-up">
@@ -226,6 +235,8 @@ function App() {
               onSubmite={handleSubmitRegister}
               onEmail={handleEmailChange}
               onPassword={handlePasswordChange}
+              valueEmail={email}
+              valuePassword={password}
             />
           </Route>
           <ProtectedRoute
@@ -249,21 +260,25 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onOpen={closeAllPopups}
           AddPlacePopup={handleAddPlaceSubmit}
+          form="add-place"
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onOpen={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          form="edit-profile"
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onOpen={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          form="edit-avatar"
         />
         <ImagePopup
           name="over-img"
           card={selectedCard}
           onOpen={closeAllPopups}
+          form="over-image"
         />
         <InfoTooltip
           status={statusInfoTooltip}

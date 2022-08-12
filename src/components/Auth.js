@@ -1,5 +1,12 @@
 export const BASE_URL = "https://auth.nomoreparties.co";
 
+function getResponseData(data) {
+  if (data.ok) {
+    return data.json();
+  }
+  return Promise.reject("Error");
+}
+
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
@@ -10,13 +17,10 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      try {
-        if (response.status === 201) {
-          localStorage.setItem("user", response);
-          return response.json();
-        }
-      } catch (e) {
-        return e;
+      if (response.status === 201) {
+        localStorage.setItem("user", response);
+        getResponseData(response);
+        return response;
       }
     })
     .catch((err) => console.log(err));
