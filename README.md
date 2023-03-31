@@ -20,3 +20,18 @@
 1. [Макет в Фигме](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 2. [Ссылка на сайт](https://nikitdubovoy.github.io/mesto/)
 3. [Ссылка фото](https://unsplash.com/)
+
+## Зависимости
+Перед началом работы с проектом необходимо установить следующие зависимости:
+
+- Node.js
+- React
+
+## Установка
+- Склонируйте репозиторий на свой компьютер:  
+ ```git clone https://github.com/NikitDubovoy/react-mesto-auth.git```
+- Установите зависимости:  
+  ```npm install```
+
+## Запуск
+ ```npm start```
